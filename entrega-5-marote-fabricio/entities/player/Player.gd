@@ -3,6 +3,11 @@ class_name Player
 
 onready var cannon = $Cannon
 
+const FLOOR_NORMAL: Vector2 = Vector2.UP  # Igual a Vector2(0, -1)
+const SNAP_DIRECTION: Vector2 = Vector2.UP
+const SNAP_LENGHT: float = 32.0
+const SLOPE_THRESHOLD: float = deg2rad(46)
+
 export (float) var ACCELERATION:float = 20.0
 export (float) var H_SPEED_LIMIT:float = 300.0
 export (float) var FRICTION_WEIGHT:float = 0.1
@@ -10,6 +15,7 @@ export (float) var JUMP_SPEED:float = -5
 export (float) var GRAVITY:float = 2
 
 var velocity:Vector2 = Vector2.ZERO
+var snap_vector: Vector2 = SNAP_DIRECTION * SNAP_LENGHT
 var projectile_container
 
 func initialize(projectile_container):
@@ -44,8 +50,5 @@ func _physics_process(delta):
 	_get_input()	
 	
 	velocity.y += GRAVITY
-	move_and_slide(velocity, Vector2.UP)
-	#move_and_slide_with_snap(velocity, Vector2.UP)
-	
-	#position += velocity * delta
-	
+	velocity = move_and_slide_with_snap(velocity, snap_vector, FLOOR_NORMAL, true, 4, SLOPE_THRESHOLD)
+
