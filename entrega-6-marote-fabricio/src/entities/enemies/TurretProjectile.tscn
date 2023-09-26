@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/entities/Projectile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/textures/fx/pulse/pulse4.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=2]
+resource_name = "fire_loop"
+
+[sub_resource type="Animation" id=3]
+resource_name = "fire_start"
+
+[sub_resource type="Animation" id=4]
+resource_name = "hit"
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_remove"
+} ]
+}
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 7.0
+height = 0.0
+
+[node name="TurretProjectile" instance=ExtResource( 1 )]
+VELOCITY = 100.0
+
+[node name="Body" type="Sprite" parent="." index="0"]
+position = Vector2( 2.38419e-07, -5.68434e-14 )
+scale = Vector2( 0.22619, 0.28125 )
+texture = ExtResource( 2 )
+
+[node name="LifetimeTimer" parent="." index="1"]
+wait_time = 3.0
+
+[node name="ProjectileAnimations" parent="." index="2"]
+anims/fire_loop = SubResource( 2 )
+anims/fire_start = SubResource( 3 )
+anims/hit = SubResource( 4 )
+
+[node name="Hitbox" parent="." index="3"]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2( 0, 1 )
+shape = SubResource( 5 )
