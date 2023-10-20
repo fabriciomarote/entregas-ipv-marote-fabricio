@@ -19,7 +19,7 @@ mob_scene = ExtResource( 3 )
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 480.0
 margin_bottom = 718.0
-color = Color( 0.180392, 0.47451, 0.819608, 1 )
+color = Color( 0.0576172, 0.243194, 0.460938, 1 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 0, 8 )
