@@ -7,7 +7,7 @@ class_name Player
 ## de la state machine directamente) como para comunicarse,
 ## por ejemplo, con el entorno del nivel.
 signal hit(amount)
-signal healed(amount)
+signal healed(amount) 
 
 signal hp_changed(current_hp, max_hp)
 signal mana_changed(current_mana, max_mana)

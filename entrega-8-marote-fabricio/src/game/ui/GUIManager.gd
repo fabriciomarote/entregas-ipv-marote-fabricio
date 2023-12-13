@@ -37,9 +37,9 @@ func _on_current_player_changed(player: Player) -> void:
 
 # Callback de cambio de HP.
 func _on_hp_changed(hp: int, hp_max: int) -> void:
-	hp_progress_1.max_value = hp_max
+	#hp_progress_1.max_value = hp_max
 	hp_progress_2.max_value = hp_max
-	hp_progress_1.value = hp
+	#hp_progress_1.value = hp
 	hp_progress_2.value = hp
 	_animate_fade()
 

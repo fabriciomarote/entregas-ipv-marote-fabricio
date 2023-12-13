@@ -379,7 +379,8 @@ position = Vector2( 0, -18.0339 )
 [node name="Body" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -16 )
 frames = SubResource( 7 )
-animation = "walk"
+animation = "go_normal"
+frame = 7
 playing = true
 
 [node name="HpProgress" type="ProgressBar" parent="."]

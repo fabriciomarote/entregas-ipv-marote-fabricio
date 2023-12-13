@@ -229,7 +229,7 @@ script = ExtResource( 1 )
 ACCELERATION = 20.0
 H_SPEED_LIMIT = 250.0
 jump_speed = 300
-FRICTION_WEIGHT = 9.375
+FRICTION_WEIGHT = 9.285
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 12 )
