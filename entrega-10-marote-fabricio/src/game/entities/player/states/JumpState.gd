@@ -55,8 +55,8 @@ func update(delta: float) -> void:
 func handle_event(event: String, value = null) -> void:
 	match event:
 		"hit":
-			hit_sfx.play()
 			character.sum_hp(value)
+			emit_signal("finished", "damage")
 		"healed":
 			character.sum_hp(value)
 		"hp_changed":

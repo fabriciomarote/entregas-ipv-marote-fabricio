@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/fonts/Default-Medium.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/fonts/Default-Big.tres" type="DynamicFont" id=2]
 [ext_resource path="res://src/game/ui/VictoryMenu.gd" type="Script" id=3]
-[ext_resource path="res://src/game/utils/AudioHandler.gd" type="Script" id=4]
 [ext_resource path="res://assets/sound/UI/Minimalist1.ogg" type="AudioStream" id=5]
 [ext_resource path="res://assets/sound/UI/Minimalist2.ogg" type="AudioStream" id=6]
 [ext_resource path="res://assets/sound/UI/Minimalist3.ogg" type="AudioStream" id=7]
@@ -77,8 +76,7 @@ margin_top = -8.0
 margin_right = -15.0
 margin_bottom = 12.0
 
-[node name="ButtonSounds" type="Node" parent="Panel/VBoxContainer" instance=ExtResource( 8 )]
-script = ExtResource( 4 )
+[node name="ButtonSounds" parent="Panel/VBoxContainer" instance=ExtResource( 8 )]
 _audio_bus = "UI"
 _audio_references = [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ]
 

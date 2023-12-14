@@ -25,6 +25,7 @@ onready var weapon_manager: Node = $WeaponManager
 onready var body_animations: AnimationPlayer = $BodyAnimations
 onready var body_pivot: Node2D = $BodyPivot
 onready var body: Sprite = $"%Body"
+
 onready var floor_raycasts: Array = $FloorRaycasts.get_children()
 
 ## Estas variables de exportación podríamos abstraerlas a cada
@@ -43,6 +44,7 @@ var velocity: Vector2 = Vector2.ZERO
 var snap_vector: Vector2 = SNAP_DIRECTION * SNAP_LENGTH
 var stop_on_slope: bool = true
 var move_direction: int = 0
+
 
 export (int) var max_hp: int = 10
 var hp: int = max_hp
@@ -63,6 +65,7 @@ var cinematic_mode: bool = false setget set_cinematic_mode
 
 
 func _ready() -> void:
+	print(body.use_parent_material)
 	initialize()
 
 

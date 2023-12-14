@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://src/game/entities/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/player/player_sheet.png" type="Texture" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://assets/sound/sfx/player/11_human_damage_1.wav" type="AudioStream" id=20]
 [ext_resource path="res://assets/sound/sfx/player/11_human_damage_3.wav" type="AudioStream" id=21]
 [ext_resource path="res://assets/sound/sfx/player/11_human_damage_2.wav" type="AudioStream" id=22]
+[ext_resource path="res://src/game/entities/player/states/DamageState.gd" type="Script" id=23]
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -72,6 +73,34 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ -5.0 ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "damage"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("BodyPivot/Body:use_parent_material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.05, 0.15, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BodyPivot/Blood:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [sub_resource type="Animation" id=11]
@@ -325,6 +354,51 @@ height = 8.0
 [sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 2, 8 )
 
+[sub_resource type="Gradient" id=20]
+offsets = PoolRealArray( 1 )
+colors = PoolColorArray( 1, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=21]
+gradient = SubResource( 20 )
+
+[sub_resource type="ParticlesMaterial" id=19]
+flag_disable_z = true
+direction = Vector3( 0, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 150.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+radial_accel = 100.0
+radial_accel_random = 1.0
+tangential_accel = 300.0
+tangential_accel_random = 1.0
+scale = 0.5
+color_ramp = SubResource( 21 )
+
+[sub_resource type="Shader" id=17]
+code = "shader_type canvas_item;
+
+uniform bool active = false;
+uniform vec4 tint = vec4(1., 1., 0., 1);
+
+void fragment() {
+	vec4 tint_copy = tint;
+	vec4 previous_color = texture(TEXTURE, UV);
+	
+	if (active == true)
+	{
+		tint_copy.a = previous_color.a;
+		COLOR = tint_copy;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=16]
+shader = SubResource( 17 )
+shader_param/active = true
+shader_param/tint = Plane( 1, 0, 0, 1 )
+
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 288, 160 )
@@ -367,7 +441,7 @@ FRICTION_WEIGHT = 9.375
 script = ExtResource( 12 )
 character_path = NodePath("..")
 START_STATE = NodePath("Idle")
-STATES_LIST = [ NodePath("Idle"), NodePath("Walk"), NodePath("Dead"), NodePath("Jump"), NodePath("Dash") ]
+STATES_LIST = [ NodePath("Idle"), NodePath("Walk"), NodePath("Dead"), NodePath("Jump"), NodePath("Dash"), NodePath("Damage") ]
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource( 14 )
@@ -401,8 +475,13 @@ one_shot = true
 script = ExtResource( 15 )
 state_id = "dead"
 
+[node name="Damage" type="Node" parent="StateMachine"]
+script = ExtResource( 23 )
+state_id = "damage"
+
 [node name="BodyAnimations" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )
+anims/damage = SubResource( 18 )
 anims/dash = SubResource( 11 )
 anims/die = SubResource( 8 )
 anims/fall = SubResource( 7 )
@@ -429,6 +508,10 @@ stream = ExtResource( 3 )
 volume_db = -5.0
 bus = "PlayerMovements"
 
+[node name="DamageSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 21 )
+bus = "SFX"
+
 [node name="CollisionShape2D1" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -8 )
 shape = SubResource( 1 )
@@ -452,8 +535,23 @@ cast_to = Vector2( 0, 1 )
 
 [node name="BodyPivot" type="Node2D" parent="."]
 
+[node name="Blood" type="Particles2D" parent="BodyPivot"]
+unique_name_in_owner = true
+position = Vector2( 0, -8 )
+rotation = 1.56731
+emitting = false
+amount = 200
+lifetime = 0.15
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2( -100, -100, 50, 50 )
+local_coords = false
+process_material = SubResource( 19 )
+
 [node name="Body" type="Sprite" parent="BodyPivot"]
 unique_name_in_owner = true
+material = SubResource( 16 )
+use_parent_material = true
 position = Vector2( -2, -11 )
 texture = SubResource( 2 )
 hframes = 9
@@ -488,3 +586,4 @@ script = ExtResource( 18 )
 [connection signal="hp_changed" from="." to="StateMachine" method="notify_hp_changed"]
 [connection signal="mana_changed" from="." to="StateMachine" method="notify_mana_changed"]
 [connection signal="stamina_changed" from="." to="StateMachine" method="notify_stamina_changed"]
+[connection signal="animation_finished" from="BodyAnimations" to="StateMachine" method="_on_animation_finished"]

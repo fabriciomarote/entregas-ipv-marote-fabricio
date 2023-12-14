@@ -652,6 +652,9 @@ position = Vector2( 800, 452 )
 [node name="Platform6" parent="Environment/Ground" instance=ExtResource( 7 )]
 position = Vector2( 720, 404 )
 
+[node name="Platform15" parent="Environment/Ground" instance=ExtResource( 7 )]
+position = Vector2( 45, 392 )
+
 [node name="Platform7" parent="Environment/Ground" instance=ExtResource( 7 )]
 position = Vector2( 800, 404 )
 
@@ -768,6 +771,9 @@ weapon_scene = ExtResource( 16 )
 
 [node name="HealingMushroom" parent="Environment/Objects" instance=ExtResource( 21 )]
 position = Vector2( 1136, 294 )
+
+[node name="HealingMushroom2" parent="Environment/Objects" instance=ExtResource( 21 )]
+position = Vector2( 761, 489 )
 
 [node name="Triggers" type="Node2D" parent="Environment"]
 z_index = 3
