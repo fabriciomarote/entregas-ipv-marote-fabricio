@@ -1,0 +1,12 @@
+Entregas 10 - Game Feel - Juiciness - Shaders
+
+Trabajo sobre el golpe recibido del personaje.
+
+El objetivo era que visualmente se sintiera y notara cuando el Player recibiera los proyectiles y este herido. Realice los siguientes pasos:
+  1. Agregue un nuevo State llamado "Damage"
+  2. Agregue un nodo AudioStreamPlayer para reproducir un sonido de golpe
+  3. Agregue un shader al nodo Sprite, que se activa cada vez que recibe el golpe el Player
+  4. Agregue unas partículas que simulan sangre que se ejecuta al mismo tiempo de recibir el golpe.
+
+Como extra de lo ya mencionado, el shader se ejecuta cuando al personaje se le resta vida. Por cada vez que recibe un golpe el body del personaje tiene
+como un efecto de parpadeo y se intensifica en cada golpe, cuando el personaje recupera su vida al 100% este efecto desaparece.
